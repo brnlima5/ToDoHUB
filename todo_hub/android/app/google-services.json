@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "379165254763",
+    "project_id": "todo-hub-dc27f",
+    "storage_bucket": "todo-hub-dc27f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379165254763:android:c9086851a9f0cfb5a07d2e",
+        "android_client_info": {
+          "package_name": "com.trab.todohub"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh9LzIWOkRKzlw_0eFDzz__rQBsFxgsBQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
