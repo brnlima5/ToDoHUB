@@ -6,3 +6,5 @@ export '/pages/tarefa_criada/tarefa_criada_widget.dart' show TarefaCriadaWidget;
 export '/pages/tarefa_editada/tarefa_editada_widget.dart'
     show TarefaEditadaWidget;
 export '/pages/tela_inicial/tela_inicial_widget.dart' show TelaInicialWidget;
+export '/pages/tarefas_concluidas/tarefas_concluidas_widget.dart'
+    show TarefasConcluidasWidget;

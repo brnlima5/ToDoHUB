@@ -1,13 +1,12 @@
-import '/components/tarefa_excluida_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'menu_de_opcoes_widget.dart' show MenuDeOpcoesWidget;
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'tarefa_concluida_widget.dart' show TarefaConcluidaWidget;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class MenuDeOpcoesModel extends FlutterFlowModel<MenuDeOpcoesWidget> {
+class TarefaConcluidaModel extends FlutterFlowModel<TarefaConcluidaWidget> {
   @override
   void initState(BuildContext context) {}
 

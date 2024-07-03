@@ -1,26 +1,19 @@
 import '/backend/backend.dart';
-import '/components/menu_de_opcoes_widget.dart';
-import '/components/tarefa_concluida_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
-import '/flutter_flow/custom_functions.dart' as functions;
-import 'tarefas_widget.dart' show TarefasWidget;
+import 'tarefas_concluidas_widget.dart' show TarefasConcluidasWidget;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 
-class TarefasModel extends FlutterFlowModel<TarefasWidget> {
+class TarefasConcluidasModel extends FlutterFlowModel<TarefasConcluidasWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
@@ -30,14 +23,9 @@ class TarefasModel extends FlutterFlowModel<TarefasWidget> {
       tabBarController != null ? tabBarController!.index : 0;
 
   // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode1;
-  TextEditingController? textController1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  AudioPlayer? soundPlayer;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode2;
-  TextEditingController? textController2;
-  String? Function(BuildContext, String?)? textController2Validator;
+  FocusNode? textFieldFocusNode;
+  TextEditingController? textController;
+  String? Function(BuildContext, String?)? textControllerValidator;
 
   @override
   void initState(BuildContext context) {}
@@ -46,10 +34,7 @@ class TarefasModel extends FlutterFlowModel<TarefasWidget> {
   void dispose() {
     unfocusNode.dispose();
     tabBarController?.dispose();
-    textFieldFocusNode1?.dispose();
-    textController1?.dispose();
-
-    textFieldFocusNode2?.dispose();
-    textController2?.dispose();
+    textFieldFocusNode?.dispose();
+    textController?.dispose();
   }
 }

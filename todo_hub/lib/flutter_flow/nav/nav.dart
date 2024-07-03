@@ -114,6 +114,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'telaInicial',
           path: '/telaInicial',
           builder: (context, params) => TelaInicialWidget(),
+        ),
+        FFRoute(
+          name: 'tarefasConcluidas',
+          path: '/tarefasConcluidas',
+          builder: (context, params) => TarefasConcluidasWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

@@ -31,10 +31,16 @@ class TarefasRecord extends FirestoreRecord {
   int get completa => _completa ?? 0;
   bool hasCompleta() => _completa != null;
 
+  // "prioridade" field.
+  String? _prioridade;
+  String get prioridade => _prioridade ?? '';
+  bool hasPrioridade() => _prioridade != null;
+
   void _initializeFields() {
     _nomeTarefa = snapshotData['nomeTarefa'] as String?;
     _descricaoTarefa = snapshotData['descricaoTarefa'] as String?;
     _completa = castToType<int>(snapshotData['completa']);
+    _prioridade = snapshotData['prioridade'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -75,12 +81,14 @@ Map<String, dynamic> createTarefasRecordData({
   String? nomeTarefa,
   String? descricaoTarefa,
   int? completa,
+  String? prioridade,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'nomeTarefa': nomeTarefa,
       'descricaoTarefa': descricaoTarefa,
       'completa': completa,
+      'prioridade': prioridade,
     }.withoutNulls,
   );
 
@@ -94,12 +102,13 @@ class TarefasRecordDocumentEquality implements Equality<TarefasRecord> {
   bool equals(TarefasRecord? e1, TarefasRecord? e2) {
     return e1?.nomeTarefa == e2?.nomeTarefa &&
         e1?.descricaoTarefa == e2?.descricaoTarefa &&
-        e1?.completa == e2?.completa;
+        e1?.completa == e2?.completa &&
+        e1?.prioridade == e2?.prioridade;
   }
 
   @override
   int hash(TarefasRecord? e) => const ListEquality()
-      .hash([e?.nomeTarefa, e?.descricaoTarefa, e?.completa]);
+      .hash([e?.nomeTarefa, e?.descricaoTarefa, e?.completa, e?.prioridade]);
 
   @override
   bool isValidKey(Object? o) => o is TarefasRecord;

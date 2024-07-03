@@ -4,6 +4,7 @@ import '../flutter_flow/flutter_flow_util.dart';
 import 'schema/util/firestore_util.dart';
 
 import 'schema/tarefas_record.dart';
+import 'schema/tarefa_concluida_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -13,6 +14,7 @@ export 'schema/util/firestore_util.dart';
 export 'schema/util/schema_util.dart';
 
 export 'schema/tarefas_record.dart';
+export 'schema/tarefa_concluida_record.dart';
 
 /// Functions to query TarefasRecords (as a Stream and as a Future).
 Future<int> queryTarefasRecordCount({
@@ -46,6 +48,43 @@ Future<List<TarefasRecord>> queryTarefasRecordOnce({
     queryCollectionOnce(
       TarefasRecord.collection,
       TarefasRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query TarefaConcluidaRecords (as a Stream and as a Future).
+Future<int> queryTarefaConcluidaRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      TarefaConcluidaRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<TarefaConcluidaRecord>> queryTarefaConcluidaRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      TarefaConcluidaRecord.collection,
+      TarefaConcluidaRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<TarefaConcluidaRecord>> queryTarefaConcluidaRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      TarefaConcluidaRecord.collection,
+      TarefaConcluidaRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

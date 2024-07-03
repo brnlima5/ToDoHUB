@@ -1,36 +1,30 @@
 import '/backend/backend.dart';
-import '/components/menu_de_opcoes_widget.dart';
-import '/components/tarefa_concluida_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'dart:math';
-import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
-import 'tarefas_model.dart';
-export 'tarefas_model.dart';
+import 'tarefas_concluidas_model.dart';
+export 'tarefas_concluidas_model.dart';
 
-class TarefasWidget extends StatefulWidget {
-  const TarefasWidget({super.key});
+class TarefasConcluidasWidget extends StatefulWidget {
+  const TarefasConcluidasWidget({super.key});
 
   @override
-  State<TarefasWidget> createState() => _TarefasWidgetState();
+  State<TarefasConcluidasWidget> createState() =>
+      _TarefasConcluidasWidgetState();
 }
 
-class _TarefasWidgetState extends State<TarefasWidget>
+class _TarefasConcluidasWidgetState extends State<TarefasConcluidasWidget>
     with TickerProviderStateMixin {
-  late TarefasModel _model;
+  late TarefasConcluidasModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -39,18 +33,15 @@ class _TarefasWidgetState extends State<TarefasWidget>
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => TarefasModel());
+    _model = createModel(context, () => TarefasConcluidasModel());
 
     _model.tabBarController = TabController(
       vsync: this,
       length: 1,
       initialIndex: 0,
     )..addListener(() => setState(() {}));
-    _model.textController1 ??= TextEditingController();
-    _model.textFieldFocusNode1 ??= FocusNode();
-
-    _model.textController2 ??= TextEditingController();
-    _model.textFieldFocusNode2 ??= FocusNode();
+    _model.textController ??= TextEditingController();
+    _model.textFieldFocusNode ??= FocusNode();
 
     animationsMap.addAll({
       'containerOnActionTriggerAnimation': AnimationInfo(
@@ -631,7 +622,7 @@ class _TarefasWidgetState extends State<TarefasWidget>
                               children: [
                                 Expanded(
                                   child: Text(
-                                    'Tarefas',
+                                    'Tarefas Concluídas',
                                     style: FlutterFlowTheme.of(context)
                                         .displaySmall
                                         .override(
@@ -643,624 +634,310 @@ class _TarefasWidgetState extends State<TarefasWidget>
                                         ),
                                   ),
                                 ),
-                                FFButtonWidget(
-                                  onPressed: () async {
-                                    context.pushNamed(
-                                      'criarTarefa',
-                                      extra: <String, dynamic>{
-                                        kTransitionInfoKey: TransitionInfo(
-                                          hasTransition: true,
-                                          transitionType:
-                                              PageTransitionType.bottomToTop,
-                                          duration: Duration(milliseconds: 350),
-                                        ),
-                                      },
-                                    );
-                                  },
-                                  text: 'Criar Tarefa',
-                                  options: FFButtonOptions(
-                                    width: 130.0,
-                                    height: 40.0,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 0.0, 0.0),
-                                    color: Color(0xFF6F61EF),
-                                    textStyle: FlutterFlowTheme.of(context)
-                                        .titleSmall
-                                        .override(
-                                          fontFamily: 'Plus Jakarta Sans',
-                                          color: Colors.white,
-                                          fontSize: 16.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                    elevation: 2.0,
-                                    borderSide: BorderSide(
-                                      color: Colors.transparent,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    hoverColor: Color(0xFF2B16ED),
-                                    hoverTextColor: Colors.white,
-                                  ),
-                                ),
                               ],
                             ),
                           ),
                           Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(),
-                              child: Align(
-                                alignment: AlignmentDirectional(0.0, 0.0),
-                                child: Column(
-                                  children: [
-                                    Align(
-                                      alignment: Alignment(-1.0, 0),
-                                      child: FlutterFlowButtonTabBar(
-                                        useToggleButtonStyle: false,
-                                        isScrollable: true,
-                                        labelStyle: FlutterFlowTheme.of(context)
-                                            .bodyLarge
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment(-1.0, 0),
+                                  child: FlutterFlowButtonTabBar(
+                                    useToggleButtonStyle: false,
+                                    isScrollable: true,
+                                    labelStyle: FlutterFlowTheme.of(context)
+                                        .bodyLarge
+                                        .override(
+                                          fontFamily: 'Plus Jakarta Sans',
+                                          color: Color(0xFF15161E),
+                                          fontSize: 16.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                    unselectedLabelStyle:
+                                        FlutterFlowTheme.of(context)
+                                            .labelLarge
                                             .override(
                                               fontFamily: 'Plus Jakarta Sans',
-                                              color: Color(0xFF15161E),
+                                              color: Color(0xFF606A85),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w600,
+                                              fontWeight: FontWeight.w500,
                                             ),
-                                        unselectedLabelStyle:
-                                            FlutterFlowTheme.of(context)
-                                                .labelLarge
-                                                .override(
-                                                  fontFamily:
-                                                      'Plus Jakarta Sans',
-                                                  color: Color(0xFF606A85),
-                                                  fontSize: 16.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                        labelColor: Color(0xFF15161E),
-                                        unselectedLabelColor: Color(0xFF606A85),
-                                        backgroundColor: Color(0x4D9489F5),
-                                        unselectedBackgroundColor: Colors.white,
-                                        borderColor: Color(0xFF6F61EF),
-                                        borderWidth: 2.0,
-                                        borderRadius: 12.0,
-                                        elevation: 0.0,
-                                        labelPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                16.0, 0.0, 16.0, 0.0),
-                                        buttonMargin:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 16.0, 0.0),
-                                        tabs: [
-                                          Tab(
-                                            text: 'Lista de Tarefas',
-                                          ),
-                                        ],
-                                        controller: _model.tabBarController,
-                                        onTap: (i) async {
-                                          [() async {}][i]();
-                                        },
+                                    labelColor: Color(0xFF15161E),
+                                    unselectedLabelColor: Color(0xFF606A85),
+                                    backgroundColor: Color(0x4D9489F5),
+                                    unselectedBackgroundColor: Colors.white,
+                                    borderColor: Color(0xFF6F61EF),
+                                    borderWidth: 2.0,
+                                    borderRadius: 12.0,
+                                    elevation: 0.0,
+                                    labelPadding:
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                    buttonMargin:
+                                        EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 16.0, 0.0),
+                                    tabs: [
+                                      Tab(
+                                        text: 'Lista de Tarefas',
                                       ),
-                                    ),
-                                    Expanded(
-                                      child: TabBarView(
-                                        controller: _model.tabBarController,
-                                        children: [
-                                          Align(
-                                            alignment:
-                                                AlignmentDirectional(0.0, 0.0),
+                                    ],
+                                    controller: _model.tabBarController,
+                                    onTap: (i) async {
+                                      [() async {}][i]();
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: TabBarView(
+                                    controller: _model.tabBarController,
+                                    children: [
+                                      Align(
+                                        alignment:
+                                            AlignmentDirectional(0.0, 0.0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 16.0, 0.0, 16.0),
+                                          child: Container(
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              border: Border.all(
+                                                color: Color(0xFFE5E7EB),
+                                              ),
+                                            ),
                                             child: Padding(
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(
-                                                      0.0, 10.0, 0.0, 16.0),
-                                              child: Container(
-                                                width: double.infinity,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  border: Border.all(
-                                                    color: Color(0xFFE5E7EB),
-                                                  ),
-                                                ),
-                                                child: Padding(
-                                                  padding: EdgeInsetsDirectional
-                                                      .fromSTEB(16.0, 24.0,
-                                                          16.0, 24.0),
-                                                  child: Column(
+                                                      16.0, 24.0, 16.0, 24.0),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Row(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
-                                                      Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        children: [
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        4.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0),
-                                                            child: Icon(
-                                                              Icons
-                                                                  .manage_search_sharp,
-                                                              color: Color(
-                                                                  0xFF6F61EF),
-                                                              size: 36.0,
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            height: 32.0,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: Color(
-                                                                  0xFFF1F4F8),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12.0),
-                                                            ),
-                                                            alignment:
-                                                                AlignmentDirectional(
-                                                                    0.0, 0.0),
-                                                          ),
-                                                          Expanded(
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          8.0,
-                                                                          0.0,
-                                                                          8.0,
-                                                                          10.0),
-                                                              child:
-                                                                  TextFormField(
-                                                                controller: _model
-                                                                    .textController1,
-                                                                focusNode: _model
-                                                                    .textFieldFocusNode1,
-                                                                onChanged: (_) =>
-                                                                    EasyDebounce
-                                                                        .debounce(
-                                                                  '_model.textController1',
-                                                                  Duration(
-                                                                      milliseconds:
-                                                                          100),
-                                                                  () => setState(
-                                                                      () {}),
-                                                                ),
-                                                                autofocus: true,
-                                                                obscureText:
-                                                                    false,
-                                                                decoration:
-                                                                    InputDecoration(
-                                                                  labelText:
-                                                                      'Buscar tarefa...',
-                                                                  labelStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Readex Pro',
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
-                                                                  hintStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .labelMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Readex Pro',
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
-                                                                  enabledBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate,
-                                                                      width:
-                                                                          2.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  focusedBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary,
-                                                                      width:
-                                                                          2.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  errorBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error,
-                                                                      width:
-                                                                          2.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                  focusedErrorBorder:
-                                                                      UnderlineInputBorder(
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .error,
-                                                                      width:
-                                                                          2.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            8.0),
-                                                                  ),
-                                                                ),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Readex Pro',
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                    ),
-                                                                validator: _model
-                                                                    .textController1Validator
-                                                                    .asValidator(
-                                                                        context),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    4.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Icon(
+                                                          Icons
+                                                              .library_add_check_rounded,
+                                                          color:
+                                                              Color(0xFF6F61EF),
+                                                          size: 36.0,
+                                                        ),
                                                       ),
-                                                      Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                            width: 335.0,
-                                                            height: 509.0,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
-                                                            ),
-                                                            child: StreamBuilder<
-                                                                List<
-                                                                    TarefasRecord>>(
-                                                              stream:
-                                                                  queryTarefasRecord(
-                                                                queryBuilder: (tarefasRecord) =>
-                                                                    tarefasRecord
-                                                                        .orderBy(
-                                                                            'completa'),
-                                                              ),
-                                                              builder: (context,
-                                                                  snapshot) {
-                                                                // Customize what your widget looks like when it's loading.
-                                                                if (!snapshot
-                                                                    .hasData) {
-                                                                  return Center(
-                                                                    child:
-                                                                        SizedBox(
-                                                                      width:
-                                                                          50.0,
-                                                                      height:
-                                                                          50.0,
-                                                                      child:
-                                                                          CircularProgressIndicator(
-                                                                        valueColor:
-                                                                            AlwaysStoppedAnimation<Color>(
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .primary,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                }
-                                                                List<TarefasRecord>
-                                                                    listViewTarefasRecordList =
-                                                                    snapshot
-                                                                        .data!;
-                                                                return ListView
-                                                                    .builder(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .zero,
-                                                                  scrollDirection:
-                                                                      Axis.vertical,
-                                                                  itemCount:
-                                                                      listViewTarefasRecordList
-                                                                          .length,
-                                                                  itemBuilder:
-                                                                      (context,
-                                                                          listViewIndex) {
-                                                                    final listViewTarefasRecord =
-                                                                        listViewTarefasRecordList[
-                                                                            listViewIndex];
-                                                                    return Visibility(
-                                                                      visible: functions.newCustomFunction(
-                                                                              _model.textController1.text,
-                                                                              listViewTarefasRecord.nomeTarefa) ??
-                                                                          true,
-                                                                      child:
-                                                                          InkWell(
-                                                                        splashColor:
-                                                                            Colors.transparent,
-                                                                        focusColor:
-                                                                            Colors.transparent,
-                                                                        hoverColor:
-                                                                            Colors.transparent,
-                                                                        highlightColor:
-                                                                            Colors.transparent,
-                                                                        onLongPress:
-                                                                            () async {
-                                                                          await showModalBottomSheet(
-                                                                            isScrollControlled:
-                                                                                true,
-                                                                            backgroundColor:
-                                                                                Colors.transparent,
-                                                                            enableDrag:
-                                                                                false,
-                                                                            context:
-                                                                                context,
-                                                                            builder:
-                                                                                (context) {
-                                                                              return GestureDetector(
-                                                                                onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
-                                                                                child: Padding(
-                                                                                  padding: MediaQuery.viewInsetsOf(context),
-                                                                                  child: MenuDeOpcoesWidget(
-                                                                                    refTarefa: listViewTarefasRecord.reference,
-                                                                                  ),
-                                                                                ),
-                                                                              );
-                                                                            },
-                                                                          ).then((value) =>
-                                                                              safeSetState(() {}));
-                                                                        },
-                                                                        child:
-                                                                            Container(
-                                                                          width:
-                                                                              100.0,
-                                                                          height:
-                                                                              65.0,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).secondaryBackground,
-                                                                          ),
-                                                                          child:
-                                                                              Row(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.max,
-                                                                            children: [
-                                                                              InkWell(
-                                                                                splashColor: Colors.transparent,
-                                                                                focusColor: Colors.transparent,
-                                                                                hoverColor: Colors.transparent,
-                                                                                highlightColor: Colors.transparent,
-                                                                                onTap: () async {
-                                                                                  await listViewTarefasRecord.reference.update(createTarefasRecordData(
-                                                                                    completa: listViewTarefasRecord.completa == 0 ? 1 : 0,
-                                                                                  ));
-                                                                                  _model.soundPlayer ??= AudioPlayer();
-                                                                                  if (_model.soundPlayer!.playing) {
-                                                                                    await _model.soundPlayer!.stop();
-                                                                                  }
-                                                                                  _model.soundPlayer!.setVolume(1.0);
-                                                                                  _model.soundPlayer!.setAsset('assets/audios/iphone_notification_sound.mp3').then((_) => _model.soundPlayer!.play());
-
-                                                                                  await showModalBottomSheet(
-                                                                                    isScrollControlled: true,
-                                                                                    backgroundColor: Colors.transparent,
-                                                                                    enableDrag: false,
-                                                                                    context: context,
-                                                                                    builder: (context) {
-                                                                                      return GestureDetector(
-                                                                                        onTap: () => _model.unfocusNode.canRequestFocus ? FocusScope.of(context).requestFocus(_model.unfocusNode) : FocusScope.of(context).unfocus(),
-                                                                                        child: Padding(
-                                                                                          padding: MediaQuery.viewInsetsOf(context),
-                                                                                          child: TarefaConcluidaWidget(),
-                                                                                        ),
-                                                                                      );
-                                                                                    },
-                                                                                  ).then((value) => safeSetState(() {}));
-                                                                                },
-                                                                                child: Container(
-                                                                                  width: 30.0,
-                                                                                  height: 30.0,
-                                                                                  decoration: BoxDecoration(
-                                                                                    color: listViewTarefasRecord.completa == 0 ? FlutterFlowTheme.of(context).secondaryBackground : FlutterFlowTheme.of(context).alternate,
-                                                                                    boxShadow: [
-                                                                                      BoxShadow(
-                                                                                        blurRadius: 4.0,
-                                                                                        color: Color(0x33000000),
-                                                                                        offset: Offset(
-                                                                                          0.0,
-                                                                                          2.0,
-                                                                                        ),
-                                                                                      )
-                                                                                    ],
-                                                                                    borderRadius: BorderRadius.only(
-                                                                                      bottomLeft: Radius.circular(30.0),
-                                                                                      bottomRight: Radius.circular(30.0),
-                                                                                      topLeft: Radius.circular(30.0),
-                                                                                      topRight: Radius.circular(30.0),
-                                                                                    ),
-                                                                                    border: Border.all(
-                                                                                      color: Color(0xFF010202),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                              Padding(
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(15.0, 0.0, 0.0, 0.0),
-                                                                                child: Column(
-                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      listViewTarefasRecord.nomeTarefa.maybeHandleOverflow(
-                                                                                        maxChars: 20,
-                                                                                        replacement: '…',
-                                                                                      ),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: 'Readex Pro',
-                                                                                            color: listViewTarefasRecord.completa == 0 ? FlutterFlowTheme.of(context).primaryText : FlutterFlowTheme.of(context).alternate,
-                                                                                            fontSize: 16.0,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                          ),
-                                                                                    ),
-                                                                                    Text(
-                                                                                      listViewTarefasRecord.descricaoTarefa.maybeHandleOverflow(
-                                                                                        maxChars: 30,
-                                                                                        replacement: '…',
-                                                                                      ),
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: 'Readex Pro',
-                                                                                            color: listViewTarefasRecord.completa == 0 ? FlutterFlowTheme.of(context).primaryText : FlutterFlowTheme.of(context).alternate,
-                                                                                            letterSpacing: 0.0,
-                                                                                          ),
-                                                                                    ),
-                                                                                    Padding(
-                                                                                      padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                                                                                      child: Container(
-                                                                                        width: 70.0,
-                                                                                        height: 22.0,
-                                                                                        decoration: BoxDecoration(
-                                                                                          color: valueOrDefault<Color>(
-                                                                                            () {
-                                                                                              if ((listViewTarefasRecord.prioridade == 'Alta') && (listViewTarefasRecord.completa == 0)) {
-                                                                                                return Color(0xFFFD6161);
-                                                                                              } else if ((listViewTarefasRecord.prioridade == 'Média') && (listViewTarefasRecord.completa == 0)) {
-                                                                                                return Color(0xFFF9D469);
-                                                                                              } else if ((listViewTarefasRecord.prioridade == 'Baixa') && (listViewTarefasRecord.completa == 0)) {
-                                                                                                return Color(0xFF42EA7A);
-                                                                                              } else {
-                                                                                                return Color(0xFFF2EFEF);
-                                                                                              }
-                                                                                            }(),
-                                                                                            Colors.white,
-                                                                                          ),
-                                                                                          borderRadius: BorderRadius.only(
-                                                                                            bottomLeft: Radius.circular(10.0),
-                                                                                            bottomRight: Radius.circular(10.0),
-                                                                                            topLeft: Radius.circular(10.0),
-                                                                                            topRight: Radius.circular(10.0),
-                                                                                          ),
-                                                                                        ),
-                                                                                        child: Align(
-                                                                                          alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                          child: Padding(
-                                                                                            padding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
-                                                                                            child: Text(
-                                                                                              listViewTarefasRecord.prioridade,
-                                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                    fontFamily: 'Readex Pro',
-                                                                                                    color: FlutterFlowTheme.of(context).primaryText,
-                                                                                                    fontSize: 12.0,
-                                                                                                    letterSpacing: 0.0,
-                                                                                                    fontWeight: FontWeight.w800,
-                                                                                                  ),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                              ),
-                                                                              Spacer(),
-                                                                              Padding(
-                                                                                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 8.0, 0.0),
-                                                                                child: FlutterFlowIconButton(
-                                                                                  borderColor: Colors.white,
-                                                                                  borderRadius: 20.0,
-                                                                                  borderWidth: 1.0,
-                                                                                  buttonSize: 40.0,
-                                                                                  fillColor: Color(0x4CFFFFFF),
-                                                                                  icon: Icon(
-                                                                                    Icons.edit_outlined,
-                                                                                    color: FlutterFlowTheme.of(context).primaryText,
-                                                                                    size: 24.0,
-                                                                                  ),
-                                                                                  onPressed: () async {
-                                                                                    context.pushNamed(
-                                                                                      'editarTarefa',
-                                                                                      queryParameters: {
-                                                                                        'tarefaRef': serializeParam(
-                                                                                          listViewTarefasRecord.reference,
-                                                                                          ParamType.DocumentReference,
-                                                                                        ),
-                                                                                        'nomeTarefa': serializeParam(
-                                                                                          listViewTarefasRecord.nomeTarefa,
-                                                                                          ParamType.String,
-                                                                                        ),
-                                                                                        'descricaoTarefa': serializeParam(
-                                                                                          listViewTarefasRecord.descricaoTarefa,
-                                                                                          ParamType.String,
-                                                                                        ),
-                                                                                      }.withoutNulls,
-                                                                                    );
-                                                                                  },
-                                                                                ),
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    );
-                                                                  },
-                                                                );
-                                                              },
-                                                            ),
+                                                      Expanded(
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      12.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: Text(
+                                                            'Lista de Tarefas Concluídas',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .headlineSmall
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Outfit',
+                                                                  color: Color(
+                                                                      0xFF15161E),
+                                                                  fontSize:
+                                                                      22.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
                                                           ),
-                                                        ],
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
+                                                  Container(
+                                                    width: 348.0,
+                                                    height: 550.0,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                    ),
+                                                    child: StreamBuilder<
+                                                        List<
+                                                            TarefaConcluidaRecord>>(
+                                                      stream:
+                                                          queryTarefaConcluidaRecord(),
+                                                      builder:
+                                                          (context, snapshot) {
+                                                        // Customize what your widget looks like when it's loading.
+                                                        if (!snapshot.hasData) {
+                                                          return Center(
+                                                            child: SizedBox(
+                                                              width: 50.0,
+                                                              height: 50.0,
+                                                              child:
+                                                                  CircularProgressIndicator(
+                                                                valueColor:
+                                                                    AlwaysStoppedAnimation<
+                                                                        Color>(
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        }
+                                                        List<TarefaConcluidaRecord>
+                                                            listViewTarefaConcluidaRecordList =
+                                                            snapshot.data!;
+                                                        return ListView.builder(
+                                                          padding:
+                                                              EdgeInsets.zero,
+                                                          scrollDirection:
+                                                              Axis.vertical,
+                                                          itemCount:
+                                                              listViewTarefaConcluidaRecordList
+                                                                  .length,
+                                                          itemBuilder: (context,
+                                                              listViewIndex) {
+                                                            final listViewTarefaConcluidaRecord =
+                                                                listViewTarefaConcluidaRecordList[
+                                                                    listViewIndex];
+                                                            return Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          20.0,
+                                                                          0.0,
+                                                                          8.0),
+                                                              child: Container(
+                                                                width: 100.0,
+                                                                height: 65.0,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
+                                                                ),
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          15.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.max,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.center,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Text(
+                                                                            listViewTarefaConcluidaRecord.nomeTarefaOk.maybeHandleOverflow(
+                                                                              maxChars: 20,
+                                                                              replacement: '…',
+                                                                            ),
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: 'Readex Pro',
+                                                                                  fontSize: 16.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FontWeight.w600,
+                                                                                ),
+                                                                          ),
+                                                                          Text(
+                                                                            listViewTarefaConcluidaRecord.descricaoTarefaOk.maybeHandleOverflow(
+                                                                              maxChars: 30,
+                                                                              replacement: '…',
+                                                                            ),
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: 'Readex Pro',
+                                                                                  letterSpacing: 0.0,
+                                                                                ),
+                                                                          ),
+                                                                          Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                5.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            child:
+                                                                                Container(
+                                                                              width: 70.0,
+                                                                              height: 22.0,
+                                                                              decoration: BoxDecoration(
+                                                                                color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                borderRadius: BorderRadius.only(
+                                                                                  bottomLeft: Radius.circular(10.0),
+                                                                                  bottomRight: Radius.circular(10.0),
+                                                                                  topLeft: Radius.circular(10.0),
+                                                                                  topRight: Radius.circular(10.0),
+                                                                                ),
+                                                                              ),
+                                                                              child: Align(
+                                                                                alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                child: Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 6.0, 0.0, 0.0),
+                                                                                  child: Text(
+                                                                                    listViewTarefaConcluidaRecord.prioridadeOk,
+                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                          fontFamily: 'Readex Pro',
+                                                                                          color: FlutterFlowTheme.of(context).primaryText,
+                                                                                          fontSize: 12.0,
+                                                                                          letterSpacing: 0.0,
+                                                                                          fontWeight: FontWeight.w800,
+                                                                                        ),
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                    Spacer(),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           ),
                         ],
@@ -1597,8 +1274,8 @@ class _TarefasWidgetState extends State<TarefasWidget>
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 8.0, 0.0, 0.0),
                           child: TextFormField(
-                            controller: _model.textController2,
-                            focusNode: _model.textFieldFocusNode2,
+                            controller: _model.textController,
+                            focusNode: _model.textFieldFocusNode,
                             autofocus: false,
                             obscureText: false,
                             decoration: InputDecoration(
@@ -1654,7 +1331,7 @@ class _TarefasWidgetState extends State<TarefasWidget>
                                 ),
                             maxLines: 8,
                             minLines: 4,
-                            validator: _model.textController2Validator
+                            validator: _model.textControllerValidator
                                 .asValidator(context),
                           ),
                         ),
